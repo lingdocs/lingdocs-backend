@@ -1,16 +1,15 @@
 import session from "express-session";
+import { RedisStore } from "connect-redis";
 import { Express } from "express";
 import { createClient } from "redis";
 import inProd from "../lib/inProd";
 import env from "../lib/env-vars";
 
 const FileStore = !inProd ? require("session-file-store")(session) : undefined;
+const redisClient = inProd ? createClient() : undefined;
+redisClient?.connect().catch(console.error);
 
-const RedisStore = require("connect-redis")(session);
-
-const store = inProd
-  ? new RedisStore({ client: createClient().connect() })
-  : FileStore({});
+const store = inProd ? new RedisStore({ client: redisClient }) : FileStore({});
 
 store.on("error", (err: any) => console.error("Session store error", err));
 
