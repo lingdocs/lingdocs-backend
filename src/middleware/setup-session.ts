@@ -9,6 +9,11 @@ const FileStore = !inProd ? require("session-file-store")(session) : undefined;
 
 const RedisStore = require("connect-redis")(session);
 
+const store = inProd
+  ? new RedisStore({ client: redis.createClient() })
+  : FileStore({});
+store.on("error", (err: any) => console.error("Session store error", err));
+
 function setupSession(app: Express) {
   console.log("setting up session", { inProd }, env.cookieSecret);
   app.use(
@@ -25,9 +30,7 @@ function setupSession(app: Express) {
         domain: inProd ? "lingdocs.com" : undefined,
         httpOnly: true,
       },
-      store: inProd
-        ? new RedisStore({ client: redis.createClient() })
-        : new FileStore({}),
+      store,
     }),
   );
 }
