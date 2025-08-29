@@ -27,7 +27,7 @@ function setupSession(app: Express) {
         maxAge: 1000 * 60 * 60 * 24 * 7 * 30 * 6,
         secure: inProd,
         sameSite: "lax",
-        domain: inProd ? "lingdocs.com" : undefined,
+        // domain: inProd ? "lingdocs.com" : undefined,
         httpOnly: true,
       },
       // store,
