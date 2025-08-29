@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "ES2022",
+    "strict": true,
+    "esModuleInterop": true,
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "outDir": "./dist",                              /* Redirect output structure to the directory. */
+    "skipLibCheck": true,                           /* Skip type checking of declaration files. */
+    "forceConsistentCasingInFileNames": true        /* Disallow inconsistently-cased references to the same file. */
+  },
+  "include": ["src/**/*"]
+}
