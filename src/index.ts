@@ -21,37 +21,15 @@ const app = express();
 // MIDDLEWARE AND SETUP 🔧 //
 app.set("view engine", "ejs");
 app.use("/payment/webhook", express.raw({ type: "*/*" }));
-app.use((req, res, next) => {
-  console.log("req.secure:", req.secure, "protocol:", req.protocol);
-  next();
-});
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 if (inProd) app.set("trust proxy", 1);
-app.use((req, res, next) => {
-  (global as any)._lastReq = req;
-  next();
-});
 setupSession(app);
 app.use(passport.initialize());
 app.use(passport.session());
 setupPassport(passport);
-
-app.use((req, res, next) => {
-  const originalSetHeader = res.setHeader;
-  res.setHeader = function (name: string, value: any) {
-    if (name.toLowerCase() === "set-cookie") {
-      console.log("Set-Cookie header:", value);
-    }
-    return originalSetHeader.apply(this, arguments as any);
-  };
-  next();
-});
-app.get("/test", cors(), (req, res) => {
-  res.send({ ok: true });
-});
 
 // Dictionary API
 app.options("/dictionary", cors());

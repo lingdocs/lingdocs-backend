@@ -160,25 +160,13 @@ const authRouter = (passport: PassportStatic) => {
 
   // all callback and remove routes/functions are the same for each provider
   outsideProviders.forEach((provider) => {
-    router.get(`/${provider}/callback`, (req, res, next) => {
-      passport.authenticate(
-        provider,
-        (err: any, user: AT.LingdocsUser | undefined, info: any) => {
-          if (err) {
-            return next(err);
-          }
-          if (!user) {
-            return res.redirect("/");
-          }
-          req.logIn(user, (err) => {
-            if (err) {
-              return next(err);
-            }
-            return res.redirect("/user");
-          });
-        },
-      )(req, res, next);
-    });
+    router.get(
+      `/${provider}/callback`,
+      passport.authenticate(provider, {
+        failureRedirect: "/",
+        successRedirect: "/user",
+      }),
+    );
     router.post(`/${provider}/remove`, async (req, res, next) => {
       try {
         if (!req.user) return next("user not found");

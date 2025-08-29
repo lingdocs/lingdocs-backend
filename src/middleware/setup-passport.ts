@@ -96,7 +96,6 @@ function setupPassport(passport: PassportStatic) {
           }
           // if there's a google account matching, log them in
           const user = await getLingdocsUser("googleId", profile.id);
-          console.log("Will call done", done);
           if (user) return done(null, user);
           // if the person used their google email for a plain signup, add the google provider to it and sign in
           const googleMail = getEmailFromGoogleProfile(gProfile);
@@ -197,8 +196,6 @@ function setupPassport(passport: PassportStatic) {
             return done(null, u);
           }
           const user = await getLingdocsUser("githubId", ghProfile.id);
-          console.log("got github user here");
-          console.log({ userId: user?.userId });
           if (user) return done(null, user);
           const u = await createNewUser({
             strategy: "github",
@@ -214,14 +211,10 @@ function setupPassport(passport: PassportStatic) {
 
   // @ts-ignore
   passport.serializeUser((user: AT.LingdocsUser, cb) => {
-    console.log("in serialize user", user.userId, user._id);
-    console.log("req.session right now:", (global as any)._lastReq?.session);
     cb(null, user.userId);
   });
 
   passport.deserializeUser(async (userId: AT.UUID, cb) => {
-    console.log("in deserialize user");
-    console.log({ userId });
     try {
       const user = await getLingdocsUser("userId", userId);
       if (!user) {
@@ -229,7 +222,6 @@ function setupPassport(passport: PassportStatic) {
         return;
       }
       // this succeeds and the callback gets called! - but the session isn't being stored
-      console.log({ user });
       cb(null, user);
     } catch (err) {
       cb(err, null);
