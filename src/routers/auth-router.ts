@@ -147,9 +147,21 @@ const authRouter = (passport: PassportStatic) => {
   );
   router.get(
     "/github",
-    passport.authenticate("github", {
-      scope: ["read:user", "user:email"],
-    }),
+    passport.authenticate(
+      "github",
+      {
+        scope: ["read:user", "user:email"],
+      },
+      (err: any, user: any, info: any) => {
+        console.log("in first callback callback");
+        console.log({ err, user, info });
+      },
+    ),
+    // passport.authenticate("github", {
+    //   scope: ["read:user", "user:email"],
+    // }, (err, user, info) => {
+
+    // }),
   );
   router.get("/twitter", passport.authenticate("twitter"));
 
@@ -157,15 +169,17 @@ const authRouter = (passport: PassportStatic) => {
   outsideProviders.forEach((provider) => {
     router.get(
       `/${provider}/callback`,
-      (req, res, next) => {
-        console.log("In callback here");
-        console.log({ user: req.user });
-        next();
-      },
-      passport.authenticate(provider, {
-        successRedirect: "/user",
-        failureRedirect: "/",
-      }),
+      passport.authenticate(
+        provider,
+        {
+          successRedirect: "/user",
+          failureRedirect: "/",
+        },
+        (infoA: any, infoB: any, infoC: any) => {
+          console.log("in callback callback");
+          console.log({ infoA, infoB, infoC });
+        },
+      ),
     );
     router.post(`/${provider}/remove`, async (req, res, next) => {
       try {

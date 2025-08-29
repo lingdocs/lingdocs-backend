@@ -198,7 +198,7 @@ function setupPassport(passport: PassportStatic) {
           }
           const user = await getLingdocsUser("githubId", ghProfile.id);
           console.log("got github user here");
-          console.log({ user });
+          console.log({ userId: user?.userId });
           if (user) return done(null, user);
           const u = await createNewUser({
             strategy: "github",
