@@ -185,10 +185,10 @@ const authRouter = (passport: PassportStatic) => {
             console.log("session at this point");
             console.log(req.session);
             req.session.save((err) => {
-              console.log("saved session:", err);
-              res.redirect("/user");
+              console.log("saved session err:", err);
+              return res.redirect("/user");
             });
-            return res.redirect("/user");
+            // return res.redirect("/user");
           });
         },
       )(req, res, next);
