@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
 import {
   insertLingdocsUser,
   addCouchDbAuthUser,
@@ -6,7 +5,7 @@ import {
   deleteCouchDbAuthUser,
 } from "../lib/couch-db";
 import { getHash, getEmailTokenAndHash } from "../lib/password-utils";
-import { getTimestamp, type AT } from "@lingdocs/auth-shared";
+import { getTimestamp, getUUID, type AT } from "@lingdocs/auth-shared";
 import {
   sendVerificationEmail,
   sendAccountUpgradeMessage,
@@ -18,10 +17,6 @@ import Stripe from "stripe";
 const stripe = new Stripe(env.stripeSecretKey, {
   apiVersion: "2025-08-27.basil",
 });
-
-function getUUID(): AT.UUID {
-  return uuidv4() as AT.UUID;
-}
 
 export function canRemoveOneOutsideProvider(user: AT.LingdocsUser): boolean {
   if (user.email && user.password) {

@@ -1,8 +1,7 @@
 {
-  "name": "lingdocs-account",
+  "name": "lingdocs-backent",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/account/src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "type-check": "tsc",
@@ -11,8 +10,7 @@
   "author": "lingdocs.com",
   "license": "ISC",
   "dependencies": {
-    "@googleapis/sheets": "^11.1.0",
-    "@lingdocs/auth-shared": "^0.2.0",
+    "@lingdocs/auth-shared": "^0.3.0",
     "@lingdocs/pashto-inflector": "^9.0.5",
     "base64url": "^3.0.1",
     "bcryptjs": "^3.0.2",
@@ -27,18 +25,16 @@
     "googleapis": "^159.0.0",
     "lokijs": "^1.5.12",
     "nano": "^9.0.3",
-    "next": "^13.4.12",
     "nodemailer": "^7.0.5",
     "passport": "^0.7.0",
     "passport-github2": "^0.1.12",
     "passport-google-oauth": "^2.0.0",
     "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
-    "pug": "^3.0.3",
     "redis": "^5.8.2",
     "session-file-store": "^1.5.0",
-    "stripe": "^18.4.0",
-    "uuid": "^8.3.2"
+    "stripe": "^18.5.0",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@types/base64url": "^2.0.7",

@@ -1,10 +1,10 @@
 import { type AT } from "@lingdocs/auth-shared";
 import type { Request, Response, NextFunction } from "express";
-import type {
-  NextApiHandler,
-  GetServerSidePropsContext,
-  GetServerSidePropsResult,
-} from "next";
+// import type {
+//   NextApiHandler,
+//   GetServerSidePropsContext,
+//   GetServerSidePropsResult,
+// } from "next";
 import sampleUsers from "./sample-users";
 
 declare module "http" {
@@ -87,23 +87,23 @@ export async function lingdocsUserExpressMiddleware(
  * @param handler
  * @returns
  */
-export function withLingdocsUserApiRoute(
-  handler: NextApiHandler,
-): NextApiHandler {
-  return async function nextApiHandlerWrappedWithLingdocsUser(req, res) {
-    const user = devSampleUser
-      ? devSampleUser === "none"
-        ? undefined
-        : devSampleUser
-      : await fetchUser(req.headers.cookies);
-    Object.defineProperty(req, "user", {
-      value: user,
-      writable: false,
-      enumerable: true,
-    });
-    return handler(req, res);
-  };
-}
+// export function withLingdocsUserApiRoute(
+//   handler: NextApiHandler,
+// ): NextApiHandler {
+//   return async function nextApiHandlerWrappedWithLingdocsUser(req, res) {
+//     const user = devSampleUser
+//       ? devSampleUser === "none"
+//         ? undefined
+//         : devSampleUser
+//       : await fetchUser(req.headers.cookies);
+//     Object.defineProperty(req, "user", {
+//       value: user,
+//       writable: false,
+//       enumerable: true,
+//     });
+//     return handler(req, res);
+//   };
+// }
 
 /**
  * Wrapper for getServer side props to include the LingdocsUser if logged in
@@ -118,27 +118,26 @@ export function withLingdocsUserApiRoute(
  * @param handler
  * @returns
  */
-export function withLingdocsUserSsr<
-  P extends { [key: string]: unknown } = { [key: string]: unknown },
->(
-  handler: (
-    context: GetServerSidePropsContext,
-  ) => GetServerSidePropsResult<P> | Promise<GetServerSidePropsResult<P>>,
-) {
-  return async function nextGetServerSidePropsHandlerWrappedWithLingdocsUser(
-    context: GetServerSidePropsContext,
-  ) {
-    const user = devSampleUser
-      ? devSampleUser === "none"
-        ? undefined
-        : devSampleUser
-      : await fetchUser(context.req.cookies);
-    Object.defineProperty(context.req, "user", {
-      value: user,
-      writable: false,
-      enumerable: true,
-    });
-    return handler(context);
-  };
-}
-
+// export function withLingdocsUserSsr<
+//   P extends { [key: string]: unknown } = { [key: string]: unknown },
+// >(
+//   handler: (
+//     context: GetServerSidePropsContext,
+//   ) => GetServerSidePropsResult<P> | Promise<GetServerSidePropsResult<P>>,
+// ) {
+//   return async function nextGetServerSidePropsHandlerWrappedWithLingdocsUser(
+//     context: GetServerSidePropsContext,
+//   ) {
+//     const user = devSampleUser
+//       ? devSampleUser === "none"
+//         ? undefined
+//         : devSampleUser
+//       : await fetchUser(context.req.cookies);
+//     Object.defineProperty(context.req, "user", {
+//       value: user,
+//       writable: false,
+//       enumerable: true,
+//     });
+//     return handler(context);
+//   };
+// }
