@@ -40,8 +40,6 @@ const authRouter = (passport: PassportStatic) => {
   });
 
   router.get("/user", (req, res) => {
-    console.log("IN USER GET REQUEST");
-    console.log({ user: req.user, cookies: req.cookies, session: req.session });
     if (!req.isAuthenticated()) {
       return res.redirect("/");
     }
@@ -167,33 +165,16 @@ const authRouter = (passport: PassportStatic) => {
         provider,
         (err: any, user: AT.LingdocsUser | undefined, info: any) => {
           if (err) {
-            console.log(`error on ${provider}`);
-            console.log(err);
             return next(err);
           }
           if (!user) {
-            console.log(`No user found from ${provider}`);
             return res.redirect("/");
           }
           req.logIn(user, (err) => {
             if (err) {
-              console.log("ERROR LOGGING IN");
-              console.log(err);
               return next(err);
             }
-            console.log("logged in - will redirect to /user");
-            console.log("session at this point (before save)", req.session);
-            req.session.save((err) => {
-              console.log("saved session err:", err);
-
-              // force express-session to touch the session
-              // @ts-ignore
-              req.session.test = Date.now();
-              res.setHeader("x-session-id", req.session.id); // sanity
-              // return res.send("session saved " + JSON.stringify(req.session));
-              return res.redirect("/user");
-            });
-            // return res.redirect("/user");
+            return res.redirect("/user");
           });
         },
       )(req, res, next);
