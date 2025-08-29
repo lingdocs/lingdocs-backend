@@ -197,6 +197,8 @@ function setupPassport(passport: PassportStatic) {
             return done(null, u);
           }
           const user = await getLingdocsUser("githubId", ghProfile.id);
+          console.log("got github user here");
+          console.log({ user });
           if (user) return done(null, user);
           const u = await createNewUser({
             strategy: "github",
@@ -211,14 +213,18 @@ function setupPassport(passport: PassportStatic) {
   );
 
   // @ts-ignore
-  passport.serializeUser((user: LingdocsUser, cb) => {
-    // @ts-ignore
+  passport.serializeUser((user: AT.LingdocsUser, cb) => {
+    console.log("in serialize user");
+    console.log({ user });
     cb(null, user.userId);
   });
 
   passport.deserializeUser(async (userId: AT.UUID, cb) => {
+    console.log("in deserialize user");
+    console.log({ userId });
     try {
       const user = await getLingdocsUser("userId", userId);
+      console.log({ user });
       if (!user) {
         cb(null, false);
         return;

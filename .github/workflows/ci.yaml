@@ -28,4 +28,5 @@ jobs:
           script: |
             cd apps/live/lingdocs-backend
             git pull
+            npm install
             pm2 restart lingdocs-backend
