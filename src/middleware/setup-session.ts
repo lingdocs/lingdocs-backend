@@ -16,7 +16,7 @@ function setupSession(app: Express) {
       secret: env.cookieSecret,
       name: "__session",
       resave: true,
-      saveUninitialized: false,
+      saveUninitialized: true,
       proxy: inProd,
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 7 * 30 * 6,
