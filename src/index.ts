@@ -35,6 +35,16 @@ app.use(passport.initialize());
 app.use(passport.session());
 setupPassport(passport);
 
+app.use((req, res, next) => {
+  const originalSetHeader = res.setHeader;
+  res.setHeader = function (name: string, value: any) {
+    if (name.toLowerCase() === "set-cookie") {
+      console.log("Set-Cookie header:", value);
+    }
+    return originalSetHeader.apply(this, arguments as any);
+  };
+  next();
+});
 app.get("/test", cors(), (req, res) => {
   res.send({ ok: true });
 });

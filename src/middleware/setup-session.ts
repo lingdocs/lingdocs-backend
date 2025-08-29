@@ -15,12 +15,13 @@ function setupSession(app: Express) {
     session({
       secret: env.cookieSecret,
       name: "__session",
-      resave: true,
-      saveUninitialized: true,
+      resave: false,
+      saveUninitialized: false,
       proxy: inProd,
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 7 * 30 * 6,
         secure: inProd,
+        sameSite: "lax",
         domain: inProd ? "lingdocs.com" : undefined,
         httpOnly: true,
       },
