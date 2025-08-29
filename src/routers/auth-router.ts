@@ -147,16 +147,9 @@ const authRouter = (passport: PassportStatic) => {
   );
   router.get(
     "/github",
-    passport.authenticate(
-      "github",
-      {
-        scope: ["read:user", "user:email"],
-      },
-      (err: any, user: any, info: any) => {
-        console.log("in first callback callback");
-        console.log({ err, user, info });
-      },
-    ),
+    passport.authenticate("github", {
+      scope: ["read:user", "user:email"],
+    }),
     // passport.authenticate("github", {
     //   scope: ["read:user", "user:email"],
     // }, (err, user, info) => {
@@ -167,20 +160,31 @@ const authRouter = (passport: PassportStatic) => {
 
   // all callback and remove routes/functions are the same for each provider
   outsideProviders.forEach((provider) => {
-    router.get(
-      `/${provider}/callback`,
+    router.get(`/${provider}/callback`, (req, res, next) => {
       passport.authenticate(
         provider,
-        {
-          successRedirect: "/user",
-          failureRedirect: "/",
+        (err: any, user: AT.LingdocsUser | undefined, info: any) => {
+          if (err) {
+            console.log(`error on ${provider}`);
+            console.log(err);
+            return next(err);
+          }
+          if (!user) {
+            console.log(`No user found from ${provider}`);
+            return res.redirect("/");
+          }
+          req.logIn(user, (err) => {
+            if (err) {
+              console.log("ERROR LOGGING IN");
+              console.log(err);
+              return next(err);
+            }
+            console.log("logged in - will redirect to /user");
+            return res.redirect("/user");
+          });
         },
-        (infoA: any, infoB: any, infoC: any) => {
-          console.log("in callback callback");
-          console.log({ infoA, infoB, infoC });
-        },
-      ),
-    );
+      )(req, res, next);
+    });
     router.post(`/${provider}/remove`, async (req, res, next) => {
       try {
         if (!req.user) return next("user not found");
