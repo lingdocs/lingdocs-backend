@@ -1,6 +1,5 @@
 import express from "express";
 import { addFeedback } from "../lib/couch-db";
-import { ntfy } from "../lib/ntfy";
 // import env from "../lib/env-vars";
 
 // TODO: ADD PROPER ERROR HANDLING THAT WILL RETURN JSON ALWAYS
@@ -26,7 +25,6 @@ feedbackRouter.put("/", (req, res, next) => {
     feedback,
   })
     .then(() => {
-      ntfy(JSON.stringify(feedback));
       res.send({ ok: true, message: "feedback received" });
     })
     .catch((e) => {

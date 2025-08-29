@@ -14,7 +14,6 @@ import {
 import { outsideProviders } from "../middleware/setup-passport";
 import env from "../lib/env-vars";
 import Stripe from "stripe";
-import { ntfy } from "./ntfy";
 
 const stripe = new Stripe(env.stripeSecretKey, {
   apiVersion: "2025-08-27.basil",
@@ -163,7 +162,6 @@ export async function createNewUser(
       email: input.email || "",
       token: email.token,
     });
-    ntfy(`new LingDocs user ${input.name} - ${input.email}`);
     const user = await insertLingdocsUser(newUser);
     return user;
   }

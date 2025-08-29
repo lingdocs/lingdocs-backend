@@ -5,13 +5,10 @@
 import Nano from "nano";
 import { DocumentInsertResponse } from "nano";
 import env from "./src/lib/env-vars";
-import * as T from "../website/src/types/account-types";
+import { type AT } from "@lingdocs/auth-shared";
 import {
   addCouchDbAuthUser,
-  generateWordlistDbPassword,
   getAllLingdocsUsers,
-  getLingdocsUser,
-  insertLingdocsUser,
   updateLingdocsUser,
 } from "./src/lib/couch-db";
 
@@ -19,17 +16,17 @@ const nano = Nano(env.couchDbURL);
 // const usersDb = nano.db.use("lingdocs-users");
 // const userDbPrefix = "userdb-";
 
-function processAPIResponse(
-  user: T.LingdocsUser,
-  response: DocumentInsertResponse
-): T.LingdocsUser | undefined {
-  if (response.ok !== true) return undefined;
-  return {
-    ...user,
-    _id: response.id,
-    _rev: response.rev,
-  };
-}
+// function processAPIResponse(
+//   user: AT.LingdocsUser,
+//   response: DocumentInsertResponse,
+// ): AT.LingdocsUser | undefined {
+//   if (response.ok !== true) return undefined;
+//   return {
+//     ...user,
+//     _id: response.id,
+//     _rev: response.rev,
+//   };
+// }
 
 async function main() {
   const users = await getAllLingdocsUsers();
@@ -38,11 +35,12 @@ async function main() {
     // if (!user.docs.length) return;
     // const u = user.docs[0];
     // await authUsers.destroy(u._id, u._rev);
+    // @ts-ignore
     if (user.level === "basic") {
       throw new Error("");
     }
     process.stdout.write(
-      `Checking for _user for ${user.name} - ${user.email}...`
+      `Checking for _user for ${user.name} - ${user.email}...`,
     );
     const uzrs = nano.db.use("_users");
     const r = await uzrs.find({
@@ -73,6 +71,7 @@ async function main() {
       //   },
       //   "_security"
       // );
+      // @ts-ignore
       const { admins, members } = await userDb.get("_security");
       if (
         admins?.names?.[0] === user.userId &&
@@ -96,6 +95,7 @@ async function main() {
       return acc;
     }
     if (
+      // @ts-ignore
       !usersWDbs.some((x) => x.level !== "basic" && x.wordlistDbName === curr)
     ) {
       return [...acc, curr];
