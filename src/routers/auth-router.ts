@@ -182,7 +182,12 @@ const authRouter = (passport: PassportStatic) => {
               return next(err);
             }
             console.log("logged in - will redirect to /user");
-            console.log("Response Set-Cookie:", res.getHeader("Set-Cookie"));
+            console.log("session at this point");
+            console.log(req.session);
+            req.session.save((err) => {
+              console.log("saved session:", err);
+              res.redirect("/user");
+            });
             return res.redirect("/user");
           });
         },
