@@ -26,6 +26,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 if (inProd) app.set("trust proxy", 1);
+app.use((req, res, next) => {
+  (global as any)._lastReq = req;
+  next();
+});
 setupSession(app);
 app.use(passport.initialize());
 app.use(passport.session());
