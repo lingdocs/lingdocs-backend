@@ -157,6 +157,11 @@ const authRouter = (passport: PassportStatic) => {
   outsideProviders.forEach((provider) => {
     router.get(
       `/${provider}/callback`,
+      (req, res, next) => {
+        console.log("In callback here");
+        console.log({ user: req.user });
+        next();
+      },
       passport.authenticate(provider, {
         successRedirect: "/user",
         failureRedirect: "/",

@@ -66,8 +66,7 @@ const editor: AT.LingdocsUser = {
   subscription: undefined,
 };
 
-// @ts-ignore
-const users: any = {
+const users = {
   basic,
   student,
   editor,

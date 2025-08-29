@@ -215,7 +215,7 @@ function setupPassport(passport: PassportStatic) {
   // @ts-ignore
   passport.serializeUser((user: AT.LingdocsUser, cb) => {
     console.log("in serialize user");
-    console.log({ user });
+    console.log({ userId: user.userId });
     cb(null, user.userId);
   });
 
