@@ -41,7 +41,7 @@ const authRouter = (passport: PassportStatic) => {
 
   router.get("/user", (req, res) => {
     console.log("IN USER GET REQUEST");
-    console.log({ user: req.user });
+    console.log({ user: req.user, cookies: req.cookies, session: req.session });
     if (!req.isAuthenticated()) {
       return res.redirect("/");
     }
