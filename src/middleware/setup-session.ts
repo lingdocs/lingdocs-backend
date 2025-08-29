@@ -10,6 +10,7 @@ const FileStore = !inProd ? require("session-file-store")(session) : undefined;
 const RedisStore = require("connect-redis")(session);
 
 function setupSession(app: Express) {
+  console.log("setting up session", { inProd }, env.cookieSecret);
   app.use(
     session({
       secret: env.cookieSecret,

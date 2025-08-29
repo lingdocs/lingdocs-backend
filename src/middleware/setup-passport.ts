@@ -214,8 +214,7 @@ function setupPassport(passport: PassportStatic) {
 
   // @ts-ignore
   passport.serializeUser((user: AT.LingdocsUser, cb) => {
-    console.log("in serialize user");
-    console.log({ userId: user.userId });
+    console.log("in serialize user", user.userId, user._id);
     cb(null, user.userId);
   });
 
@@ -224,20 +223,12 @@ function setupPassport(passport: PassportStatic) {
     console.log({ userId });
     try {
       const user = await getLingdocsUser("userId", userId);
-      console.log({ user });
       if (!user) {
         cb(null, false);
         return;
       }
-      // THIS IS ERRORING TOO MUCH!
-      // try {
-      //   // skip if there's an update conflict
-      //   const newUser = await updateLingdocsUser(userId, { lastActive: getTimestamp() });
-      //   cb(null, newUser);
-      // } catch (e) {
-      //   console.error(e);
-      //   cb(null, user);
-      // }
+      // this succeeds and the callback gets called! - but the session isn't being stored
+      console.log({ user });
       cb(null, user);
     } catch (err) {
       cb(err, null);
