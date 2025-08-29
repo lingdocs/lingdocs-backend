@@ -69,9 +69,7 @@ function setupPassport(passport: PassportStatic) {
         const { _json, _raw, ...profile } = profileRaw;
         const gProfile = { ...profile, accessToken, refreshToken };
         try {
-          console.log("Called Google strategy");
           if (req.isAuthenticated()) {
-            console.log("Authenticated with", req.user);
             if (!req.user) done(new Error("user lost"));
             const otherAccountWSameGoogle = await getLingdocsUser(
               "googleId",
@@ -98,7 +96,7 @@ function setupPassport(passport: PassportStatic) {
           }
           // if there's a google account matching, log them in
           const user = await getLingdocsUser("googleId", profile.id);
-          console.log("Outside of block", user);
+          console.log("Will call done", done);
           if (user) return done(null, user);
           // if the person used their google email for a plain signup, add the google provider to it and sign in
           const googleMail = getEmailFromGoogleProfile(gProfile);
