@@ -182,7 +182,7 @@ const authRouter = (passport: PassportStatic) => {
               return next(err);
             }
             console.log("logged in - will redirect to /user");
-            console.log("session at this point");
+            console.log("session at this point", req.session);
             console.log(req.session);
             req.session.save((err) => {
               console.log("saved session err:", err);

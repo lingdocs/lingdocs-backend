@@ -30,7 +30,7 @@ function setupSession(app: Express) {
         domain: inProd ? "lingdocs.com" : undefined,
         httpOnly: true,
       },
-      store,
+      // store,
     }),
   );
 }
