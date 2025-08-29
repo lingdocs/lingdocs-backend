@@ -1,20 +1,13 @@
 import session from "express-session";
 import { Express } from "express";
-import { createClient } from "redis";
+// @ts-ignore
+import redis from "redis";
 import inProd from "../lib/inProd";
 import env from "../lib/env-vars";
-import { RedisStore } from "connect-redis";
 
 const FileStore = !inProd ? require("session-file-store")(session) : undefined;
 
-const redisClient = inProd ? createClient() : undefined;
-redisClient?.connect().catch(console.error);
-
-const redisStore = inProd
-  ? new RedisStore({
-      client: redisClient,
-    })
-  : undefined;
+const RedisStore = require("connect-redis")(session);
 
 function setupSession(app: Express) {
   app.use(
@@ -30,10 +23,11 @@ function setupSession(app: Express) {
         domain: inProd ? "lingdocs.com" : undefined,
         httpOnly: true,
       },
-      store: inProd ? redisStore : new FileStore({}),
+      store: inProd
+        ? new RedisStore({ client: redis.createClient() })
+        : new FileStore({}),
     }),
   );
 }
 
 export default setupSession;
-
