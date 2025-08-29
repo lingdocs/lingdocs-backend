@@ -182,9 +182,14 @@ const authRouter = (passport: PassportStatic) => {
               return next(err);
             }
             console.log("logged in - will redirect to /user");
-            console.log("session at this point", req.session);
+            console.log("session at this point (before save)", req.session);
             req.session.save((err) => {
               console.log("saved session err:", err);
+
+              // force express-session to touch the session
+              // @ts-ignore
+              req.session.test = Date.now();
+              res.setHeader("x-session-id", req.session.id); // sanity
               // return res.send("session saved " + JSON.stringify(req.session));
               return res.redirect("/user");
             });

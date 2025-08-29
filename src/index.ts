@@ -21,6 +21,10 @@ const app = express();
 // MIDDLEWARE AND SETUP 🔧 //
 app.set("view engine", "ejs");
 app.use("/payment/webhook", express.raw({ type: "*/*" }));
+app.use((req, res, next) => {
+  console.log("req.secure:", req.secure, "protocol:", req.protocol);
+  next();
+});
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
