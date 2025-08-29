@@ -26,6 +26,6 @@ jobs:
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            cd apps/live/account
+            cd apps/live/lingdocs-backend
             git pull
-            pm2 restart account
+            pm2 restart lingdocs-backend
