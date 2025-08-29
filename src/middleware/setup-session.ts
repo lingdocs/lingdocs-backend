@@ -26,7 +26,7 @@ function setupSession(app: Express) {
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 7 * 30 * 6,
         secure: inProd,
-        sameSite: "lax",
+        sameSite: "none",
         // domain: inProd ? "lingdocs.com" : undefined,
         httpOnly: true,
       },
