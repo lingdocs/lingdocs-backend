@@ -11,8 +11,6 @@ redisClient?.connect().catch(console.error);
 
 const store = inProd ? new RedisStore({ client: redisClient }) : FileStore({});
 
-store.on("error", (err: any) => console.error("Session store error", err));
-
 function setupSession(app: Express) {
   app.use(
     session({
