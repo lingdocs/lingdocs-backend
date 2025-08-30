@@ -14,7 +14,6 @@ const store = inProd ? new RedisStore({ client: redisClient }) : FileStore({});
 store.on("error", (err: any) => console.error("Session store error", err));
 
 function setupSession(app: Express) {
-  console.log("setting up session", { inProd }, env.cookieSecret);
   app.use(
     session({
       secret: env.cookieSecret,

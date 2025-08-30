@@ -13,6 +13,7 @@ import {
 } from "./src/lib/couch-db";
 
 const nano = Nano(env.couchDbURL);
+nano.auth(env.couchDbUsername, env.couchDbPassword);
 // const usersDb = nano.db.use("lingdocs-users");
 // const userDbPrefix = "userdb-";
 

@@ -1,7 +1,8 @@
 {
-  "name": "lingdocs-backent",
+  "name": "lingdocs-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "backend auth / api for LingDocs sites",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "type-check": "tsc",

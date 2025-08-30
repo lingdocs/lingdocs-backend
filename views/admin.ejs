@@ -15,7 +15,6 @@
         fetch(`/admin/${uid}`, {
           method: "DELETE",
         }).then((res) => res.json()).then((res) => {
-          console.log(res);
           if (res.ok) {
             window.location = "/admin";
           }
