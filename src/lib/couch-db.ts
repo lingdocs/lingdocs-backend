@@ -4,9 +4,12 @@ import { getTimestamp, type AT } from "@lingdocs/auth-shared";
 import env from "./env-vars";
 
 const nano = Nano(env.couchDbURL);
+await nano.auth(env.couchDbUsername, env.couchDbPassword).catch(console.error);
+
 const usersDb = nano.db.use("lingdocs-users");
 const feedbackDb = nano.db.use("feedback");
 const paymentsDb = nano.db.use("payments");
+export const reviewTasksDb = nano.db.use("review-tasks");
 const userDbPrefix = "userdb-";
 
 export async function addFeedback(feedback: any) {

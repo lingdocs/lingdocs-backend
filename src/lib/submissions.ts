@@ -1,4 +1,3 @@
-import Nano from "nano";
 import {
   addDictionaryEntries,
   deleteEntry,
@@ -6,6 +5,7 @@ import {
   updateDictionaryEntries,
   type AT,
 } from "@lingdocs/auth-shared";
+import { reviewTasksDb } from "./couch-db";
 import { google } from "googleapis";
 import env from "./env-vars";
 import Queue from "bull";
@@ -27,8 +27,6 @@ if (isNaN(sheetId)) {
   console.error("Invalid SheetID for LINGDOCS_DICTIONARY_SHEET_ID env var");
   process.exit(1);
 }
-const nano = Nano(env.couchDbURL);
-const reviewTasksDb = nano.db.use("review-tasks");
 
 // TODO: get new env vars on server (remember base64 for key)
 
