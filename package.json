@@ -10,8 +10,8 @@
   "author": "lingdocs.com",
   "license": "ISC",
   "dependencies": {
-    "@lingdocs/auth-shared": "^0.3.0",
-    "@lingdocs/pashto-inflector": "^9.0.5",
+    "@lingdocs/auth-shared": "^0.4.0",
+    "@lingdocs/pashto-inflector": "^9.0.6",
     "base64url": "^3.0.1",
     "bcryptjs": "^3.0.2",
     "bull": "^4.16.5",
