@@ -3,6 +3,8 @@ import { DocumentInsertResponse } from "nano";
 import { getTimestamp, type AT } from "@lingdocs/auth-shared";
 import env from "./env-vars";
 
+console.log({ env });
+
 const nano = Nano(env.couchDbURL);
 nano.auth(env.couchDbUsername, env.couchDbPassword).catch(console.error);
 
