@@ -3,8 +3,20 @@ import { DocumentInsertResponse } from "nano";
 import { getTimestamp, type AT } from "@lingdocs/auth-shared";
 import env from "./env-vars";
 
-const nano = Nano(env.couchDbURL);
+const nano = Nano({
+  url: env.couchDbURL,
+  requestDefaults: {
+    jar: true,
+  },
+});
 nano.auth(env.couchDbUsername, env.couchDbPassword).catch(console.error);
+
+setInterval(
+  () => {
+    nano.session().catch(console.error); // refreshes the cookie expiry
+  },
+  5 * 60 * 1000,
+); // every 5 minutes, less than the 10-minute default expiry
 
 const usersDb = nano.db.use("lingdocs-users");
 const feedbackDb = nano.db.use("feedback");
